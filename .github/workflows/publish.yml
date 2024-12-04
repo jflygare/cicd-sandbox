@@ -51,7 +51,7 @@ jobs:
         shell: bash
 
       - name: Build package
-        run: npx run cicd-sandbox:build
+        run: npx nx run cicd-sandbox:build
         shell: bash
 
       - name: Version package
