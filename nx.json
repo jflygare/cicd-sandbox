@@ -47,10 +47,10 @@
     }},
     "version": {
       // https://nx.dev/recipes/nx-release/automatically-version-with-conventional-commits
-      //"conventionalCommits": true,
+      "conventionalCommits": true,
       "generatorOptions": {
         "packageRoot": "dist/apps/{projectName}", // path structure for your dist directory
-        "currentVersionResolver": "git-tag", // or "registry"
+        //"currentVersionResolver": "git-tag", // or "registry"
         "fallbackCurrentVersionResolver": "disk"
       }
     },
