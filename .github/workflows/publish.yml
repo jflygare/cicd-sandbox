@@ -55,12 +55,15 @@ jobs:
         shell: bash
 
       - name: Version package
-        run: npx nx release version --dry-run=${{ inputs.dryRun }}
+        run: npx nx release version
         shell: bash
 
       - name: Read version
         id: version
         run: echo "version=$(node -p "require('./dist/apps/cicd-sandbox/package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Echo version
+        run: echo ${{ steps.version.outputs.version.version }}
 
       - name: Publish package
         run: npx nx release publish --dry-run=${{ inputs.dryRun }}
