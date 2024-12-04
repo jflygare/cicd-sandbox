@@ -34,6 +34,7 @@ jobs:
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com/
+          cache: 'npm'
 
       - name: NPM auth
         run: |
@@ -49,8 +50,20 @@ jobs:
         run: npx nx report
         shell: bash
 
-      - name: Publish packages
-        run: npx nx release publish --dry-run
+      - name: Build package
+        run: npx run cicd-sandbox:build
+        shell: bash
+
+      - name: Version package
+        run: npx nx release version --dry-run=${{ inputs.dryRun }}
+        shell: bash
+
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./dist/apps/cicd-sandbox/package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Publish package
+        run: npx nx release publish --dry-run=${{ inputs.dryRun }}
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
