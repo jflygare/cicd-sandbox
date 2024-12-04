@@ -1,0 +1,57 @@
+# ./.github/workflows/publish.yml
+# https://nx.dev/recipes/nx-release/publish-in-ci-cd
+name: Publish
+
+on:
+  # push:
+  #   tags:
+  #     - v*.*.*
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        type: boolean
+        default: true
+
+jobs:
+  test:
+    name: Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+      packages: write # to be able to publish packages
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+
+      - name: NPM auth
+        run: |
+          npm config set //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm clean-install
+        shell: bash
+
+      - name: Print Environment Info
+        run: npx nx report
+        shell: bash
+
+      - name: Publish packages
+        run: npx nx release publish --dry-run
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
