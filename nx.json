@@ -38,6 +38,13 @@
       "exclude": ["apps/cicd-sandbox-e2e/**/*"]
     }
   ],
+  // "targetDefaults": {
+  //   "nx-release-publish": {
+  //     "options": {
+  //       "packageRoot": "dist/apps/{projectName}"
+  //     }
+  //   }
+  // },
   "release": {
     "groups": {
       "default": {

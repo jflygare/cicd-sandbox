@@ -21,4 +21,5 @@ RUN chown -R cicd-sandbox:cicd-sandbox .
 # The bundled output will include external dependencies.
 RUN npm --prefix cicd-sandbox --omit=dev -f install
 
+EXPOSE 3000
 CMD [ "node", "cicd-sandbox" ]

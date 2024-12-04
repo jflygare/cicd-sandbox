@@ -45,6 +45,11 @@
         "build"
       ],
       "command": "docker build -f apps/cicd-sandbox/Dockerfile . -t cicd-sandbox"
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/apps/{projectName}"
+      }
     }
   }
 }

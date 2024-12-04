@@ -12,6 +12,11 @@ on:
         type: boolean
         default: true
 
+env:
+  AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: jflygare/cicd-sandbox           # set this to your Amazon ECR repository name
+  
+
 jobs:
   test:
     name: Publish
@@ -51,7 +56,8 @@ jobs:
         shell: bash
 
       - name: Build package
-        run: npx nx run cicd-sandbox:build
+        #run: npx nx run cicd-sandbox:build
+        run: npx nx run-many -t build
         shell: bash
 
       - name: Version package
@@ -63,11 +69,37 @@ jobs:
         run: echo "version=$(node -p "require('./dist/apps/cicd-sandbox/package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Echo version
-        run: echo ${{ steps.version.outputs.version.version }}
+        run: echo ${{ steps.version.outputs.version }}
 
       - name: Publish package
+        if: false
         run: npx nx release publish --dry-run=${{ inputs.dryRun }}
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ steps.version.outputs.version }}
+          #IMAGE_TAG: ${{ github.sha }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
