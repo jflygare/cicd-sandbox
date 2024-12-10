@@ -70,7 +70,7 @@ jobs:
 
       - name: Build package
         #run: npx nx run cicd-sandbox:build
-        run: npx nx run-many -t build
+        run: npx nx run-many -t build --no-cloud
         shell: bash
 
       # https://github.com/aws-actions/configure-aws-credentials/tree/v4
