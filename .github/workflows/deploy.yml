@@ -29,8 +29,8 @@ on:
 
 env:
   ECR_REPOSITORY: rtm-gateway/${{ inputs.environment }}
-  ECS_CLUSTER: cicd-sandbox
-  ECS_SERVICE: cicd-sandbox
+  ECS_CLUSTER: demo-sandbox-Cluster-rRrWqaKHFuLy
+  ECS_SERVICE: demo-sandbox-api-Service-y4wBgDx5Rkaf
   ESC_CONTAINER_NAME: cicd-sandbox
   ECS_TASK_DEFINITION_FAMILY: cicd-sandbox
   IMAGE_TAG: ${{ inputs.version }}
