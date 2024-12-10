@@ -31,8 +31,10 @@ env:
   ECR_REPOSITORY: rtm-gateway/${{ inputs.environment }}
   IMAGE_TAG: ${{ inputs.version }}
   AWS_REGION: us-east-1
-  AWS_ACCESS_KEY_ID: ${{ inputs.environment == 'production' && secrets.PRODUCTION_AWS_ACCESS_KEY_ID || secrets.STAGING_AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ inputs.environment == 'production' && secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY || secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+  #AWS_ACCESS_KEY_ID: ${{ inputs.environment == 'production' && secrets.PRODUCTION_AWS_ACCESS_KEY_ID || secrets.STAGING_AWS_ACCESS_KEY_ID }}
+  #AWS_SECRET_ACCESS_KEY: ${{ inputs.environment == 'production' && secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY || secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 
 jobs:
@@ -102,3 +104,4 @@ jobs:
   deploy_ecs:
     if: ${{ inputs.deploy_ecs }}
     runs-on: ubuntu-latest
+
