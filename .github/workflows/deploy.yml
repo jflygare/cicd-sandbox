@@ -1,0 +1,43 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        type: choice
+        options:
+          - staging
+          - production
+        required: true
+        default: 'staging'
+      version:
+        description: 'Version (image tag)'
+        required: true
+        type: string
+
+      deploy_image:
+        description: 'Deploy image'
+        type: boolean
+        required: true
+        default: true
+      deploy_ecs:
+        description: 'Deploy ECS'
+        type: boolean
+        required: true
+        default: true
+
+env:
+  MY_ENV_VAR: ${{ github.ref == 'refs/heads/main' && 'value_for_main_branch' || 'value_for_other_branches' }}
+  ECR_REPOSITORY: rtm-gateway/${{ inputs.environment }}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo vars
+        run: |
+          echo $MY_ENV_VAR
+          echo $ECR_REPOSITORY
