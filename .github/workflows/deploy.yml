@@ -31,8 +31,8 @@ env:
   ECR_REPOSITORY: rtm-gateway/${{ inputs.environment }}
   ECS_CLUSTER: demo-sandbox-Cluster-rRrWqaKHFuLy
   ECS_SERVICE: demo-sandbox-api-Service-y4wBgDx5Rkaf
-  ESC_CONTAINER_NAME: cicd-sandbox
-  ECS_TASK_DEFINITION_FAMILY: cicd-sandbox
+  ESC_CONTAINER_NAME: api
+  ECS_TASK_DEFINITION_FAMILY: demo-sandbox-api
   IMAGE_TAG: ${{ inputs.version }}
   AWS_REGION: us-east-1
   # TODO: Use GitHub Environments for managing secrets/vars per
