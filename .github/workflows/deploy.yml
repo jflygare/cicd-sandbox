@@ -40,6 +40,38 @@ jobs:
     if: ${{ inputs.deploy_image }}
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+          cache: 'npm'
+
+      - name: NPM auth
+        run: |
+          npm config set //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm clean-install
+        shell: bash
+
+      - name: Print Environment Info
+        run: npx nx report
+        shell: bash
+
+      - name: Build package
+        #run: npx nx run cicd-sandbox:build
+        run: npx nx run-many -t build
+        shell: bash
+
       # https://github.com/aws-actions/configure-aws-credentials/tree/v4
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
