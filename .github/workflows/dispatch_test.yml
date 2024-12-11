@@ -36,3 +36,6 @@ jobs:
         run: |
           echo "Dispatch Test"
           echo "${{ inputs }}"
+      - name: Echo DEVELOP
+        run: |
+          echo "Hello from the DEVELOP branch"
