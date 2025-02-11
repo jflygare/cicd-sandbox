@@ -1,0 +1,21 @@
+name: TEST
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        type: choice
+        options:
+          - staging
+          - production
+        required: true
+        default: 'staging'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # This prints the entire github model values for troubleshooting/testing. This can be removed if no longer useful
+      - name: Echo github
+        run: echo "${{ toJSON(github) }}"
