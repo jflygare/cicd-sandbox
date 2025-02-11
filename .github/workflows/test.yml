@@ -17,6 +17,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       # This prints the entire github model values for troubleshooting/testing. This can be removed if no longer useful
       - name: Echo github
         run: echo "${{ toJSON(github) }}"
