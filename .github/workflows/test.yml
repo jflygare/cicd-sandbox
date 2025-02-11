@@ -7,6 +7,7 @@ on:
         description: 'Environment'
         type: choice
         options:
+          - development
           - staging
           - production
         required: true
@@ -19,3 +20,12 @@ jobs:
       # This prints the entire github model values for troubleshooting/testing. This can be removed if no longer useful
       - name: Echo github
         run: echo "${{ toJSON(github) }}"
+
+      - uses: ./.github/actions/translate-environment
+        id: get-env
+        with:
+          environment: ${{ inputs.environment }}
+
+      - run: echo "${{ toJSON(steps.get-env.outputs )}}"
+
+
