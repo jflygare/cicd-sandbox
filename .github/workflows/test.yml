@@ -24,7 +24,7 @@ jobs:
       - name: Echo github
         run: echo "${{ toJSON(github) }}"
 
-      - uses: ./.github/actions/translate-environment
+      - uses: ./.github/actions/env-api
         id: get-env
         with:
           environment: ${{ inputs.environment }}
