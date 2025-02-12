@@ -47,11 +47,9 @@ runs:
         # Convention used in AWS resources
         AWS_PREFIX=${APP_PREFIX}-${SHORT_NAME}
         # Output
-        echo >> $GITHUB_OUTPUT <<EOF
-        short-name=${SHORT_NAME}
-        ecr-repository-name=${AWS_PREFIX}-repository
-        ecs-cluster-name=${AWS_PREFIX}-cluster
-        ecs-service-name=${AWS_PREFIX}-service
-        ecs-task-definition-template=.github/aws/${AWS_PREFIX}-task.json
-        ecs-task-container-name=${AWS_PREFIX}
-        EOF
+        echo "short-name=${SHORT_NAME}" >> $GITHUB_OUTPUT
+        echo "ecr-repository-name=${AWS_PREFIX}-repository" >> $GITHUB_OUTPUT
+        echo "ecs-cluster-name=${AWS_PREFIX}-cluster" >> $GITHUB_OUTPUT
+        echo "ecs-service-name=${AWS_PREFIX}-service" >> $GITHUB_OUTPUT
+        echo "ecs-task-definition-template=.github/aws/${AWS_PREFIX}-task.json" >> $GITHUB_OUTPUT
+        echo "ecs-task-container-name=${AWS_PREFIX}" >> $GITHUB_OUTPUT
