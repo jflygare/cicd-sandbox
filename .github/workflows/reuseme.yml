@@ -1,0 +1,30 @@
+name: REUSEME
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Environment'
+        type: string
+        required: true
+#    secrets:
+#      aws-access-key-id:
+#        required: true
+
+
+jobs:
+  reusable-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # This prints the entire github model values for troubleshooting/testing. This can be removed if no longer useful
+      - name: Echo github
+        run: echo "${{ toJSON(github) }}"
+
+      - name: Echo inputs
+        run: echo "${{ toJSON(inputs) }}"
+
+      - name: Echo secrets
+        run: echo "${{ toJSON(secrets) }}"

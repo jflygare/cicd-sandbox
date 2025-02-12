@@ -14,6 +14,10 @@ on:
         default: 'staging'
 
 jobs:
+  test-reuse:
+    uses: ./.github/workflows/reuseme.yml
+    with:
+      environment: ${{ inputs.environment }}
   test:
     runs-on: ubuntu-latest
     steps:
