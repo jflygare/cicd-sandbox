@@ -36,6 +36,6 @@ jobs:
 
       - run: echo "${{ toJSON(steps.get-env.outputs )}}"
 
-      - run: echo "${{ toJSON(env)}}"
+      - run: echo "${{ env }}"
 
 
