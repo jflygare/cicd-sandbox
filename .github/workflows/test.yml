@@ -36,6 +36,11 @@ jobs:
 
       - run: echo "${{ toJSON(steps.get-env.outputs )}}"
 
-      - run: env
+      - run: env | sort
+
+      - run: |
+          echo "```json" >> $GITHUB_STEP_SUMMARY
+          cat "${GITHUB_OUTPUT}" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
 
 
