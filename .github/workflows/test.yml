@@ -39,7 +39,8 @@ jobs:
       - run: env | sort
 
       - run: |
-          echo "```json" >> $GITHUB_STEP_SUMMARY
+          echo "This is a summary" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
           echo "${{ toJSON(steps.get-env.outputs )}}" >> $GITHUB_STEP_SUMMARY
           echo "```" >> $GITHUB_STEP_SUMMARY
 
