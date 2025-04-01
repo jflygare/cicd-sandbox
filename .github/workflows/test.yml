@@ -3,10 +3,11 @@ name: TEST
 on:
   workflow_dispatch:
     inputs:
-      git-environment:
+      environment:
         description: 'Git Environment'
         type: environment
-      environment:
+        required: true
+      raw-environment:
         description: 'Environment'
         type: choice
         options:
@@ -19,9 +20,14 @@ on:
 jobs:
   env-test:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - name: Eco Env
-        run: echo "${{ secrets.ENV_SECRET }}"
+        run: echo "${{ inputs.environment }}"
+
+      - run: echo "${SEC_VAL}"
+        env: SEC_VAL=${{ secrets.ENV_SECRET }}
+
   test-reuse:
     uses: ./.github/workflows/reuseme.yml
     with:
@@ -29,6 +35,7 @@ jobs:
     secrets: inherit
   test:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v4
         with:
