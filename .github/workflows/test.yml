@@ -3,6 +3,9 @@ name: TEST
 on:
   workflow_dispatch:
     inputs:
+      git-environment:
+        description: 'Git Environment'
+        type: environment
       environment:
         description: 'Environment'
         type: choice
@@ -14,6 +17,11 @@ on:
         default: 'staging'
 
 jobs:
+  env-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Eco Env
+        run: echo "${{ secrets.ENV_SECRET }}"
   test-reuse:
     uses: ./.github/workflows/reuseme.yml
     with:
