@@ -26,7 +26,12 @@ jobs:
         run: echo "${{ inputs.environment }}"
 
       - run: echo "${SEC_VAL}"
-        env: SEC_VAL=${{ secrets.ENV_SECRET }}
+        env:
+          SEC_VAL: ${{ secrets.ENV_SECRET }}
+
+      - run: echo "${SEC_VAL}"
+        env:
+          SEC_VAL: ${{ toJSON(secrets) }}
 
   test-reuse:
     uses: ./.github/workflows/reuseme.yml
